@@ -24,4 +24,6 @@ jobs:
           pip install pytest
 
       - name: Executar testes
+        env:
+          SECRET_KEY: "chave-temporaria-exclusiva-para-testes"
         run: python -m pytest tests/ -v
