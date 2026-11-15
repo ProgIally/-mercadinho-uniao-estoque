@@ -218,3 +218,23 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+# Banco de dados SQLite
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Variáveis de ambiente
+.env
+.env.*
+
+# Ambiente virtual
+.venv/
+venv/
+
+# Cache e testes
+__pycache__/
+.pytest_cache/
+*.pyc
+# Configurações locais do VS Code
+.vscode/

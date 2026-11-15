@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastrar Produto - Mercadinho União</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        margin: 0;
+      }
+
+      header {
+        background: #146c43;
+        color: white;
+        text-align: center;
+        padding: 25px;
+      }
+
+      main {
+        max-width: 550px;
+        margin: 40px auto;
+        padding: 0 15px;
+      }
+
+      .card {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px #00000015;
+      }
+
+      label {
+        display: block;
+        margin-top: 20px;
+        font-weight: bold;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        margin-top: 8px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        box-sizing: border-box;
+      }
+
+      button {
+        width: 100%;
+        padding: 14px;
+        background: #146c43;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        margin-top: 25px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      button:hover {
+        background: #0e4f30;
+      }
+
+      .voltar {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: #146c43;
+      }
+
+      .erro {
+        color: #c62828;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Mercadinho União</h1>
+      <p>Cadastro de Produtos</p>
+    </header>
+
+    <main>
+      <div class="card">
+        <h2>Novo Produto</h2>
+
+        {% with mensagens = get_flashed_messages(with_categories=true) %} {% for
+        categoria, mensagem in mensagens %}
+        <p class="{{ categoria }}">{{ mensagem }}</p>
+        {% endfor %} {% endwith %}
+
+        <form method="POST" action="{{ url_for('cadastro') }}">
+          <label for="nome">Nome do Produto</label>
+          <input
+            type="text"
+            id="nome"
+            name="nome"
+            placeholder="Ex: Feijão 1kg"
+            required
+          />
+
+          <label for="quantidade">Quantidade Inicial</label>
+          <input
+            type="number"
+            id="quantidade"
+            name="quantidade"
+            min="0"
+            required
+          />
+
+          <label for="estoque_minimo">Estoque Mínimo</label>
+          <input
+            type="number"
+            id="estoque_minimo"
+            name="estoque_minimo"
+            min="0"
+            required
+          />
+
+          <button type="submit">Cadastrar Produto</button>
+        </form>
+
+        <a class="voltar" href="{{ url_for('inicio') }}"> Voltar ao Estoque </a>
+      </div>
+    </main>
+  </body>
+</html>

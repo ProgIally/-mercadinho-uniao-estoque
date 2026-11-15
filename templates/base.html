@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Mercadinho União{% endblock %}</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+      }
+
+      header {
+        background: #146b46;
+        color: white;
+        text-align: center;
+        padding: 35px 20px;
+      }
+
+      nav {
+        background: #105537;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 15px;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        padding: 12px 18px;
+        border-radius: 6px;
+      }
+
+      nav a:hover {
+        background: #20865a;
+      }
+
+      main {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+      }
+
+      .card {
+        background: white;
+        padding: 28px;
+        border-radius: 10px;
+        box-shadow: 0 3px 12px #00000012;
+      }
+
+      .mensagem {
+        padding: 12px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        background: #e6f4ea;
+      }
+
+      .mensagem.erro {
+        background: #ffe5e5;
+        color: #9b2020;
+      }
+
+      .tabela-estoque {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      .tabela-estoque th,
+      .tabela-estoque td {
+        padding: 14px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+      }
+
+      .tabela-estoque th {
+        background-color: #e9f5ee;
+      }
+
+      .normal {
+        color: #146c43;
+        font-weight: bold;
+      }
+
+      .baixo {
+        color: #c62828;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Mercadinho União</h1>
+      <p>Sistema de Controle de Estoque</p>
+    </header>
+
+    <nav>
+      <a href="{{ url_for('inicio') }}">Estoque</a>
+      <a href="{{ url_for('cadastro') }}">Cadastrar Produto</a>
+      <a href="{{ url_for('movimentacao') }}">Movimentação</a>
+      <a href="{{ url_for('alertas') }}">Alertas</a>
+    </nav>
+
+    <main>
+      {% with mensagens = get_flashed_messages(with_categories=true) %} {% for
+      categoria, mensagem in mensagens %}
+      <div class="mensagem {{ categoria }}">{{ mensagem }}</div>
+      {% endfor %} {% endwith %} {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movimentação - Mercadinho União</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+      }
+
+      header {
+        background: #146b46;
+        color: white;
+        text-align: center;
+        padding: 30px;
+      }
+
+      .card {
+        background: white;
+        max-width: 550px;
+        margin: 45px auto;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 3px 12px #00000015;
+      }
+
+      label {
+        display: block;
+        margin: 18px 0 8px;
+        font-weight: bold;
+      }
+
+      select,
+      input,
+      button {
+        width: 100%;
+        padding: 12px;
+        box-sizing: border-box;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+
+      button {
+        background: #146b46;
+        color: white;
+        border: none;
+        margin-top: 25px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      .voltar {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: #146b46;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Mercadinho União</h1>
+      <p>Movimentação de Estoque</p>
+    </header>
+
+    <main class="card">
+      <h2>Entrada e Saída de Produtos</h2>
+
+      {% with mensagens = get_flashed_messages(with_categories=true) %} {% for
+      categoria, mensagem in mensagens %}
+      <p role="alert">{{ mensagem }}</p>
+      {% endfor %} {% endwith %}
+
+      <form method="POST" action="{{ url_for('movimentacao') }}">
+        <label for="produto_id">Produto</label>
+        <select name="produto_id" id="produto_id" required>
+          <option value="">Selecione um produto</option>
+          {% for produto in produtos %}
+          <option value="{{ produto.id }}">
+            {{ produto.nome }} - Estoque: {{ produto.quantidade }}
+          </option>
+          {% endfor %}
+        </select>
+
+        <label for="tipo">Tipo de Movimentação</label>
+        <select name="tipo" id="tipo" required>
+          <option value="entrada">Entrada</option>
+          <option value="saida">Saída</option>
+        </select>
+
+        <label for="quantidade">Quantidade</label>
+        <input
+          type="number"
+          name="quantidade"
+          id="quantidade"
+          min="1"
+          step="1"
+          required
+        />
+
+        <button type="submit">Registrar Movimentação</button>
+      </form>
+
+      <a class="voltar" href="{{ url_for('inicio') }}"> Voltar ao Estoque </a>
+    </main>
+  </body>
+</html>
