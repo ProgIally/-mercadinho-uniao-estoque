@@ -1,12 +1,11 @@
-
 from database import conectar
 
 
 def cadastrar_produto(nome, quantidade, estoque_minimo):
-    nome = str(nome).strip()
-
-    if not nome:
+    if not isinstance(nome, str) or not nome.strip():
         raise ValueError("O nome do produto é obrigatório.")
+
+    nome = nome.strip()
 
     if type(quantidade) is not int or type(estoque_minimo) is not int:
         raise ValueError("As quantidades devem ser números inteiros.")
@@ -23,7 +22,6 @@ def cadastrar_produto(nome, quantidade, estoque_minimo):
             (nome, quantidade, estoque_minimo)
         )
         return cursor.lastrowid
-
 
 def listar_produtos():
     with conectar() as conexao:
