@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Mercadinho União{% endblock %}</title>
-
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
     <style>
       * {
         box-sizing: border-box;
@@ -100,6 +103,16 @@
     <header>
       <h1>Mercadinho União</h1>
       <p>Sistema de Controle de Estoque</p>
+
+      <button
+        type="button"
+        id="botao-contraste"
+        aria-label="Ativar alto contraste"
+        aria-pressed="false"
+        onclick="alternarContraste()"
+      >
+        Alto contraste
+      </button>
     </header>
 
     <nav>
@@ -115,5 +128,34 @@
       <div class="mensagem {{ categoria }}">{{ mensagem }}</div>
       {% endfor %} {% endwith %} {% block content %}{% endblock %}
     </main>
+
+    <script>
+      function alternarContraste() {
+        const ativo = document.body.classList.toggle("alto-contraste");
+
+        localStorage.setItem("altoContraste", ativo ? "sim" : "nao");
+
+        atualizarBotao(ativo);
+      }
+
+      function atualizarBotao(ativo) {
+        const botao = document.getElementById("botao-contraste");
+
+        if (botao) {
+          botao.setAttribute("aria-pressed", String(ativo));
+          botao.setAttribute(
+            "aria-label",
+            ativo ? "Desativar alto contraste" : "Ativar alto contraste",
+          );
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const ativo = localStorage.getItem("altoContraste") === "sim";
+
+        document.body.classList.toggle("alto-contraste", ativo);
+        atualizarBotao(ativo);
+      });
+    </script>
   </body>
 </html>
