@@ -1,0 +1,40 @@
+body.alto-contraste {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+body.alto-contraste
+  :is(
+    header,
+    nav,
+    main,
+    section,
+    article,
+    div,
+    form,
+    table,
+    th,
+    td,
+    input,
+    select,
+    textarea
+  ) {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-color: #ffff00 !important;
+}
+
+body.alto-contraste a {
+  color: #ffff00 !important;
+}
+
+body.alto-contraste button {
+  background-color: #ffff00 !important;
+  color: #000 !important;
+  border: 2px solid #fff !important;
+}
+
+body.alto-contraste :focus-visible {
+  outline: 3px solid #ffff00 !important;
+  outline-offset: 3px;
+}
