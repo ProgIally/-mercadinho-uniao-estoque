@@ -3,10 +3,12 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from models import listar_produtos, cadastrar_produto, movimentar_estoque
 from models import listar_alertas
 from dotenv import load_dotenv
+from database import criar_tabelas
 
 load_dotenv()
-app = Flask(__name__)
+app = Flask(__name__)   
 app.secret_key = os.environ["SECRET_KEY"]
+criar_tabelas()
 
 
 @app.route("/")
