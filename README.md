@@ -221,3 +221,19 @@ O Mercadinho União demonstra a aplicação prática de conceitos de desenvolvim
 A solução integra interface web, regras de negócio, persistência de dados, validações e testes automatizados.
 
 O projeto pode ser expandido futuramente com autenticação de usuários, relatórios gerenciais e novas funcionalidades administrativas.
+
+## Revisão técnica do MVP
+
+### Arquitetura e organização
+
+O Mercadinho União utiliza Python, Flask e SQLite para implementar o controle de estoque. A aplicação está organizada em arquivos responsáveis pelas rotas HTTP (`app.py`), regras de negócio (`models.py`) e acesso ao banco de dados (`database.py`).
+
+Essa separação facilita a manutenção, a identificação de responsabilidades e a execução de testes automatizados.
+
+### Qualidade e segurança
+
+O sistema possui validações para impedir o cadastro de produtos com nomes inválidos, quantidades negativas e nomes superiores a 100 caracteres.
+
+As movimentações de estoque verificam a disponibilidade dos produtos antes de permitir uma saída. As consultas SQL utilizam parâmetros para os valores fornecidos à aplicação.
+
+O projeto também utiliza testes automatizados com pytest e integração contínua pelo GitHub Actions.
