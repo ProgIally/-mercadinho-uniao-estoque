@@ -55,7 +55,13 @@ def test_nome_produto_none():
     with pytest.raises(ValueError, match="O nome do produto é obrigatório"):
         cadastrar_produto(None, 10, 5)
 
-
 def test_nome_produto_numerico():
     with pytest.raises(ValueError, match="O nome do produto é obrigatório"):
         cadastrar_produto(123, 10, 5)
+
+
+def test_nome_produto_muito_longo():
+    nome = "A" * 101
+
+    with pytest.raises(ValueError, match="não pode ultrapassar 100 caracteres"):
+        cadastrar_produto(nome, 10, 5)

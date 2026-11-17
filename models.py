@@ -1,11 +1,15 @@
 from database import conectar
 
 
+
 def cadastrar_produto(nome, quantidade, estoque_minimo):
     if not isinstance(nome, str) or not nome.strip():
         raise ValueError("O nome do produto é obrigatório.")
 
     nome = nome.strip()
+
+    if len(nome) > 100:
+        raise ValueError("O nome do produto não pode ultrapassar 100 caracteres.")
 
     if type(quantidade) is not int or type(estoque_minimo) is not int:
         raise ValueError("As quantidades devem ser números inteiros.")
