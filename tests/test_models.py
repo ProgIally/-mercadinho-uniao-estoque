@@ -51,3 +51,11 @@ def test_cadastrar_produto_no_banco(tmp_path, monkeypatch):
     assert produto["nome"] == "Arroz 5kg"
     assert produto["quantidade"] == 20
     assert produto["estoque_minimo"] == 5
+def test_nome_produto_none():
+    with pytest.raises(ValueError, match="O nome do produto é obrigatório"):
+        cadastrar_produto(None, 10, 5)
+
+
+def test_nome_produto_numerico():
+    with pytest.raises(ValueError, match="O nome do produto é obrigatório"):
+        cadastrar_produto(123, 10, 5)
