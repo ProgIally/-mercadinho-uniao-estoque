@@ -30,7 +30,7 @@ def cadastrar_produto(nome, quantidade, estoque_minimo):
 def listar_produtos():
     with conectar() as conexao:
         produtos = conexao.execute(
-            "SELECT * FROM produto ORDER BY nome"
+            "SELECT * FROM produto WHERE ativo = 1 ORDER BY nome"
         ).fetchall()
 
         return [dict(produto) for produto in produtos]
@@ -39,7 +39,7 @@ def listar_produtos():
 def buscar_produto(produto_id):
     with conectar() as conexao:
         produto = conexao.execute(
-            "SELECT * FROM produto WHERE id = ?",
+            "SELECT * FROM produto WHERE id = ? AND ativo = 1",
             (produto_id,)
         ).fetchone()
 
@@ -55,7 +55,7 @@ def movimentar_estoque(produto_id, tipo, quantidade):
 
     with conectar() as conexao:
         produto = conexao.execute(
-            "SELECT quantidade FROM produto WHERE id = ?",
+            "SELECT quantidade FROM produto WHERE id = ? AND ativo = 1",
             (produto_id,)
         ).fetchone()
 
@@ -87,14 +87,35 @@ def movimentar_estoque(produto_id, tipo, quantidade):
         return nova_quantidade
 
 
+
 def listar_alertas():
     with conectar() as conexao:
         produtos = conexao.execute(
             """
             SELECT * FROM produto
-            WHERE quantidade <= estoque_minimo
+            WHERE ativo = 1 AND quantidade <= estoque_minimo
             ORDER BY nome
             """
         ).fetchall()
 
         return [dict(produto) for produto in produtos]
+
+
+
+def excluir_produto(produto_id):
+    if type(produto_id) is not int or produto_id <= 0:
+        raise ValueError("ID do produto inválido.")
+
+    with conectar() as conexao:
+        produto = conexao.execute(
+            "SELECT id FROM produto WHERE id = ?",
+            (produto_id,)
+        ).fetchone()
+
+        if produto is None:
+            raise ValueError("Produto não encontrado.")
+
+        conexao.execute(
+            "UPDATE produto SET ativo = 0 WHERE id = ?",
+            (produto_id,)
+        )

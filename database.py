@@ -21,7 +21,9 @@ def criar_tabelas():
                 quantidade INTEGER NOT NULL DEFAULT 0
                     CHECK (quantidade >= 0),
                 estoque_minimo INTEGER NOT NULL DEFAULT 0
-                    CHECK (estoque_minimo >= 0)
+                    CHECK (estoque_minimo >= 0),
+                ativo INTEGER NOT NULL DEFAULT 1
+                    CHECK (ativo IN (0, 1))
             );
 
             CREATE TABLE IF NOT EXISTS movimentacao (
@@ -37,7 +39,21 @@ def criar_tabelas():
             );
         """)
 
+        # Migração para bancos criados anteriormente
+        colunas = conexao.execute(
+            "PRAGMA table_info(produto)"
+        ).fetchall()
+
+        nomes_colunas = [coluna["name"] for coluna in colunas]
+
+        if "ativo" not in nomes_colunas:
+            conexao.execute("""
+                ALTER TABLE produto
+                ADD COLUMN ativo INTEGER NOT NULL DEFAULT 1
+                    CHECK (ativo IN (0, 1))
+            """)
+
 
 if __name__ == "__main__":
     criar_tabelas()
-    print("Banco de dados criado com sucesso!")
+    print("Banco de dados criado/atualizado com sucesso!")
