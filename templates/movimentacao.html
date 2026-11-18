@@ -1,110 +1,103 @@
-<!doctype html>
-<html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Movimentação - Mercadinho União</title>
-    <style>
-      body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #f4f6f9;
-      }
+{% extends "base.html" %} {% block title %}Movimentação - Mercadinho União{%
+endblock %} {% block content %}
 
-      header {
-        background: #146b46;
-        color: white;
-        text-align: center;
-        padding: 30px;
-      }
+<style>
+  .card-movimentacao {
+    max-width: 550px;
+    margin: 0 auto;
+  }
 
-      .card {
-        background: white;
-        max-width: 550px;
-        margin: 45px auto;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 3px 12px #00000015;
-      }
+  .form-movimentacao label {
+    display: block;
+    margin: 18px 0 8px;
+    font-weight: bold;
+  }
 
-      label {
-        display: block;
-        margin: 18px 0 8px;
-        font-weight: bold;
-      }
+  .form-movimentacao select,
+  .form-movimentacao input {
+    width: 100%;
+    padding: 12px;
+    box-sizing: border-box;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
 
-      select,
-      input,
-      button {
-        width: 100%;
-        padding: 12px;
-        box-sizing: border-box;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-      }
+  .form-movimentacao button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    background: #146b46;
+    color: white;
+    border: none;
+    margin-top: 25px;
+    cursor: pointer;
+    font-weight: bold;
+  }
 
-      button {
-        background: #146b46;
-        color: white;
-        border: none;
-        margin-top: 25px;
-        cursor: pointer;
-        font-weight: bold;
-      }
+  .form-movimentacao button:hover {
+    background: #105537;
+  }
 
-      .voltar {
-        display: block;
-        text-align: center;
-        margin-top: 20px;
-        color: #146b46;
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <h1>Mercadinho União</h1>
-      <p>Movimentação de Estoque</p>
-    </header>
+  .voltar {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #146b46;
+  }
 
-    <main class="card">
-      <h2>Entrada e Saída de Produtos</h2>
+  body.alto-contraste .form-movimentacao label {
+    color: #fff !important;
+  }
 
-      {% with mensagens = get_flashed_messages(with_categories=true) %} {% for
-      categoria, mensagem in mensagens %}
-      <p role="alert">{{ mensagem }}</p>
-      {% endfor %} {% endwith %}
+  body.alto-contraste .form-movimentacao button {
+    background: #ffff00 !important;
+    color: #000 !important;
+    border: 2px solid #fff !important;
+  }
 
-      <form method="POST" action="{{ url_for('movimentacao') }}">
-        <label for="produto_id">Produto</label>
-        <select name="produto_id" id="produto_id" required>
-          <option value="">Selecione um produto</option>
-          {% for produto in produtos %}
-          <option value="{{ produto.id }}">
-            {{ produto.nome }} - Estoque: {{ produto.quantidade }}
-          </option>
-          {% endfor %}
-        </select>
+  body.alto-contraste .voltar {
+    color: #ffff00 !important;
+  }
+</style>
 
-        <label for="tipo">Tipo de Movimentação</label>
-        <select name="tipo" id="tipo" required>
-          <option value="entrada">Entrada</option>
-          <option value="saida">Saída</option>
-        </select>
+<div class="card card-movimentacao">
+  <h2>Entrada e Saída de Produtos</h2>
 
-        <label for="quantidade">Quantidade</label>
-        <input
-          type="number"
-          name="quantidade"
-          id="quantidade"
-          min="1"
-          step="1"
-          required
-        />
+  <form
+    class="form-movimentacao"
+    method="POST"
+    action="{{ url_for('movimentacao') }}"
+  >
+    <label for="produto_id">Produto</label>
+    <select name="produto_id" id="produto_id" required>
+      <option value="">Selecione um produto</option>
+      {% for produto in produtos %}
+      <option value="{{ produto.id }}">
+        {{ produto.nome }} - Estoque: {{ produto.quantidade }}
+      </option>
+      {% endfor %}
+    </select>
 
-        <button type="submit">Registrar Movimentação</button>
-      </form>
+    <label for="tipo">Tipo de Movimentação</label>
+    <select name="tipo" id="tipo" required>
+      <option value="entrada">Entrada</option>
+      <option value="saida">Saída</option>
+    </select>
 
-      <a class="voltar" href="{{ url_for('inicio') }}"> Voltar ao Estoque </a>
-    </main>
-  </body>
-</html>
+    <label for="quantidade">Quantidade</label>
+    <input
+      type="number"
+      name="quantidade"
+      id="quantidade"
+      min="1"
+      step="1"
+      required
+    />
+
+    <button type="submit">Registrar Movimentação</button>
+  </form>
+
+  <a class="voltar" href="{{ url_for('inicio') }}"> Voltar ao Estoque </a>
+</div>
+
+{% endblock %}

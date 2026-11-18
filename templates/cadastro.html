@@ -1,129 +1,110 @@
-<!doctype html>
-<html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cadastrar Produto - Mercadinho União</title>
+{% extends "base.html" %} {% block title %}Cadastrar Produto - Mercadinho
+União{% endblock %} {% block content %}
 
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background: #f4f6f9;
-        margin: 0;
-      }
+<style>
+  .card-cadastro {
+    max-width: 550px;
+    margin: 0 auto;
+    padding: 30px;
+  }
 
-      header {
-        background: #146c43;
-        color: white;
-        text-align: center;
-        padding: 25px;
-      }
+  .form-cadastro label {
+    display: block;
+    margin-top: 20px;
+    font-weight: bold;
+  }
 
-      main {
-        max-width: 550px;
-        margin: 40px auto;
-        padding: 0 15px;
-      }
+  .form-cadastro input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+  }
 
-      .card {
-        background: white;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px #00000015;
-      }
+  .form-cadastro button {
+    width: 100%;
+    padding: 14px;
+    background: #146c43;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    margin-top: 25px;
+    cursor: pointer;
+    font-weight: bold;
+  }
 
-      label {
-        display: block;
-        margin-top: 20px;
-        font-weight: bold;
-      }
+  .form-cadastro button:hover {
+    background: #0e4f30;
+  }
 
-      input {
-        width: 100%;
-        padding: 12px;
-        margin-top: 8px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        box-sizing: border-box;
-      }
+  .voltar {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #146c43;
+  }
 
-      button {
-        width: 100%;
-        padding: 14px;
-        background: #146c43;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        margin-top: 25px;
-        cursor: pointer;
-        font-weight: bold;
-      }
+  body.alto-contraste .form-cadastro label {
+    color: #fff !important;
+  }
 
-      button:hover {
-        background: #0e4f30;
-      }
+  body.alto-contraste .form-cadastro input {
+    background: #000 !important;
+    color: #fff !important;
+    border: 2px solid #ffff00 !important;
+  }
 
-      .voltar {
-        display: block;
-        text-align: center;
-        margin-top: 20px;
-        color: #146c43;
-      }
+  body.alto-contraste .form-cadastro button {
+    background: #ffff00 !important;
+    color: #000 !important;
+    border: 2px solid #fff !important;
+  }
 
-      .erro {
-        color: #c62828;
-      }
-    </style>
-  </head>
+  body.alto-contraste .voltar {
+    color: #ffff00 !important;
+  }
+</style>
 
-  <body>
-    <header>
-      <h1>Mercadinho União</h1>
-      <p>Cadastro de Produtos</p>
-    </header>
+<div class="card card-cadastro">
+  <h2>Novo Produto</h2>
 
-    <main>
-      <div class="card">
-        <h2>Novo Produto</h2>
+  <form class="form-cadastro" method="POST" action="{{ url_for('cadastro') }}">
+    <label for="nome">Nome do Produto</label>
+    <input
+      type="text"
+      id="nome"
+      name="nome"
+      placeholder="Ex: Feijão 1kg"
+      maxlength="100"
+      required
+    />
 
-        {% with mensagens = get_flashed_messages(with_categories=true) %} {% for
-        categoria, mensagem in mensagens %}
-        <p class="{{ categoria }}">{{ mensagem }}</p>
-        {% endfor %} {% endwith %}
+    <label for="quantidade">Quantidade Inicial</label>
+    <input
+      type="number"
+      id="quantidade"
+      name="quantidade"
+      min="0"
+      step="1"
+      required
+    />
 
-        <form method="POST" action="{{ url_for('cadastro') }}">
-          <label for="nome">Nome do Produto</label>
-          <input
-            type="text"
-            id="nome"
-            name="nome"
-            placeholder="Ex: Feijão 1kg"
-            required
-          />
+    <label for="estoque_minimo">Estoque Mínimo</label>
+    <input
+      type="number"
+      id="estoque_minimo"
+      name="estoque_minimo"
+      min="0"
+      step="1"
+      required
+    />
 
-          <label for="quantidade">Quantidade Inicial</label>
-          <input
-            type="number"
-            id="quantidade"
-            name="quantidade"
-            min="0"
-            required
-          />
+    <button type="submit">Cadastrar Produto</button>
+  </form>
 
-          <label for="estoque_minimo">Estoque Mínimo</label>
-          <input
-            type="number"
-            id="estoque_minimo"
-            name="estoque_minimo"
-            min="0"
-            required
-          />
+  <a class="voltar" href="{{ url_for('inicio') }}"> Voltar ao Estoque </a>
+</div>
 
-          <button type="submit">Cadastrar Produto</button>
-        </form>
-
-        <a class="voltar" href="{{ url_for('inicio') }}"> Voltar ao Estoque </a>
-      </div>
-    </main>
-  </body>
-</html>
+{% endblock %}
