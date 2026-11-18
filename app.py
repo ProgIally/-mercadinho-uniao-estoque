@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash
 from models import listar_produtos, cadastrar_produto, movimentar_estoque
-from models import listar_alertas
+from models import listar_alertas, excluir_produto
 from dotenv import load_dotenv
 from database import criar_tabelas
 
@@ -71,6 +71,17 @@ def alertas():
         "alertas.html",
         produtos=produtos
     )
+
+@app.route("/excluir/<int:produto_id>", methods=["POST"])
+def excluir(produto_id):
+    try:
+        excluir_produto(produto_id)
+        flash("Produto excluído com sucesso!", "sucesso")
+
+    except ValueError as erro:
+        flash(f"Erro ao excluir produto: {erro}", "erro")
+
+    return redirect(url_for("inicio"))
 
 if __name__ == "__main__":
     app.run(debug=True)
